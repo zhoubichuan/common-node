@@ -1,12 +1,13 @@
 const mysql = require("mysql")
-let { MONGO_URL, MYSQL_URL, MYSQL_PORT, _AUTHSOURCE, _USER, _PASS, LOCAL } = process.env;
+let { MONGO_URL, MYSQL_URL, MYSQL_PORT, _AUTHSOURCE, MYSQL_USER, MYSQL_PASS, LOCAL } = process.env;
+console.log(MYSQL_URL, MYSQL_PORT, MYSQL_USER, MYSQL_PASS)
 const connection = mysql.createConnection({
     host: MYSQL_URL,
     port: MYSQL_PORT,
-    user: _USER,
-    password: _PASS,
-    database: "commonNodeStudent",
-    insecureAuth : true
+    user: MYSQL_USER,
+    password: MYSQL_PASS,
+    database: "common_node_student",
+    insecureAuth:true
 })
 connection.connect()
 function sql_add(s_name, s_english, s_math, callback) {
