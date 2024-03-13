@@ -4,7 +4,7 @@
   "description": "公共服务",
   "main": "index.js",
   "scripts": {
-    "pm2": "pm2 start app.js --name common-node",
+    "pm2": "pm2 stop app.js --name common-node && pm2 start app.js --name common-node",
     "dev": "dotenv -e .env.dev  nodemon app.js",
     "sit": "dotenv -e .env.sit nodemon app.js",
     "uat": "dotenv -e .env.uat nodemon app.js",
