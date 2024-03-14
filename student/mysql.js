@@ -7,9 +7,28 @@ const connection = mysql.createConnection({
     user: MYSQL_USER,
     password: MYSQL_PASS,
     database: "common_node_student",
-    insecureAuth:true
+    insecureAuth: true
 })
-connection.connect()
+connection.connect((err) => {
+    if (err) {
+        console.error('Error connecting to MySQL database:', err);
+        return;
+    }
+    console.log('Connected to MySQL database.');
+    const createTableSQL = `CREATE TABLE IF NOT EXISTS student (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        s_name VARCHAR(255) NOT NULL,
+        s_english VARCHAR(255) NOT NULL,
+        s_math VARCHAR(255) NOT NULL
+      )`;
+    connection.query(createTableSQL, (err, results) => {
+        // connection.release();
+        if (err) throw err;
+        console.log('Table created successfully.');
+    });
+    // connection.end();
+})
+
 function sql_add(s_name, s_english, s_math, callback) {
     let userAddSql = "INSERT INTO student(s_name,s_english,s_math) VALUES(?,?,?)"
     let userAddSql_params = [s_name, s_english, s_math]
