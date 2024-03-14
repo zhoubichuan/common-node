@@ -99,7 +99,7 @@ let student = (req, res) => {
     let arr = ["queryAll", "querySingle", "addSingle", "deleteSingle", "update"]
     for (let i = 0;i < arr.length;i++) {
         if (req.url.includes(arr[i])) {
-            common[arr[i]](res, req, arr[i])
+            common[arr[i]](res, req, req.url)
         }
     }
 }
