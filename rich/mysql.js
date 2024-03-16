@@ -38,9 +38,10 @@ connection.connect((err) => {
     // connection.end();
 })
 
-function sql_add(s_name, s_english, s_math, callback) {
+function sql_add(data, callback) {
+    console.log('rich',data)
     let userAddSql = "INSERT INTO rich(data) VALUES(?)"
-    let userAddSql_params = [s_name, s_english, s_math]
+    let userAddSql_params = [data]
     connection.query(userAddSql, userAddSql_params, function (err, result) {
         if (err) {
             console.log(err)

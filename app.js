@@ -11,9 +11,9 @@ server.listen(port, function () {
 })
 
 server.on("request", function (req, res) {
-    example(req, res)
-    student(req, res)
-    rich(req, res)
-    sse(req, res)
+    req.url.includes('example') && example(req, res)
+    req.url.includes('student') && student(req, res)
+    req.url.includes('rich') && rich(req, res)
+    req.url.includes('sse') && sse(req, res)
 })
 socket(server)
