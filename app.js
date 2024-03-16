@@ -15,5 +15,5 @@ server.on("request", function (req, res) {
     student(req, res)
     rich(req, res)
     sse(req, res)
-    socket((req, res) => { })
 })
+socket(server)

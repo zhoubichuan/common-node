@@ -1,9 +1,6 @@
-var http = require('http')
-
-let wsServer = (app) => {
-    var server = http.createServer(app)
+let wsServer = (server) => {
     let WebSocketServer = require("ws").Server
-    let wsServer = new WebSocketServer({ port: 3001 })
+    let wsServer = new WebSocketServer({server})
     wsServer.on("connection", (socket) => {
         console.log("客户端连接成功")
         socket.on("message", (message) => {
