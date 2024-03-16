@@ -8,28 +8,27 @@ const connection = mysql.createConnection({
     password: MYSQL_PASS,
     insecureAuth: true
 })
+
 connection.connect((err) => {
     if (err) {
         console.error('Error connecting to MySQL database:', err);
         return;
     }
     // 创建数据库
-    connection.query('CREATE DATABASE IF NOT EXISTS common_node_student', (error, results, fields) => {
+    connection.query('CREATE DATABASE IF NOT EXISTS common_node_rich', (error, results, fields) => {
         if (error) throw error;
         console.log('数据库已创建！');
     });
     // 选择数据库
-    connection.query('USE common_node_student', (error, results, fields) => {
+    connection.query('USE common_node_rich', (error, results, fields) => {
         if (error) throw error;
         // 成功选择数据库后的操作
         console.log('数据库已使用！');
     });
     // 创建表
-    const createTableSQL = `CREATE TABLE IF NOT EXISTS student (
+    const createTableSQL = `CREATE TABLE IF NOT EXISTS rich (
         id INT PRIMARY KEY AUTO_INCREMENT,
-        s_name VARCHAR(255) NOT NULL,
-        s_english VARCHAR(255) NOT NULL,
-        s_math VARCHAR(255) NOT NULL
+        data VARCHAR(255) NOT NULL
       )`;
     connection.query(createTableSQL, (err, results) => {
         // connection.release();
@@ -40,7 +39,7 @@ connection.connect((err) => {
 })
 
 function sql_add(s_name, s_english, s_math, callback) {
-    let userAddSql = "INSERT INTO student(s_name,s_english,s_math) VALUES(?,?,?)"
+    let userAddSql = "INSERT INTO rich(data) VALUES(?)"
     let userAddSql_params = [s_name, s_english, s_math]
     connection.query(userAddSql, userAddSql_params, function (err, result) {
         if (err) {
@@ -52,15 +51,15 @@ function sql_add(s_name, s_english, s_math, callback) {
     })
 }
 function sql_delete(id, callback) {
-    let userDeleteSql = `DELETE FROM student WHERE id=${id}`
+    let userDeleteSql = `DELETE FROM rich WHERE id=${id}`
     connection.query(userDeleteSql, function (err, result) {
         callback && callback(result)
         console.log("删除", JSON.stringify(result))
     })
 }
-function sql_update(id, s_name, s_english, s_math, callback) {
-    console.log(typeof s_name)
-    let userChangeSql = `UPDATE student SET s_name="${s_name}",s_english=${s_english},s_math=${s_math} WHERE id=${id}`
+function sql_update(id, data, callback) {
+    console.log(typeof data)
+    let userChangeSql = `UPDATE rich SET data="${data}" WHERE id=${id}`
     connection.query(userChangeSql, function (err, result) {
         if (err) {
             console.log(err)
@@ -71,7 +70,7 @@ function sql_update(id, s_name, s_english, s_math, callback) {
     })
 }
 function sql_query(callback) {
-    let userSearchSql = "SELECT * FROM student"
+    let userSearchSql = "SELECT * FROM rich"
     connection.query(userSearchSql, function (err, result) {
         if (err) {
             console.log("查找失败", err)
