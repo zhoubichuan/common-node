@@ -1,3 +1,4 @@
+require('dotenv').config()
 const http = require("http")
 const example = require('./router/example/index.js')
 const student = require('./router/student/index.js')

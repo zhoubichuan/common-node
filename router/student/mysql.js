@@ -1,6 +1,6 @@
 const mysql = require("mysql")
 let { MONGO_URL, MYSQL_URL, MYSQL_PORT, _AUTHSOURCE, MYSQL_USER, MYSQL_PASS, LOCAL } = process.env;
-console.log(MYSQL_URL, MYSQL_PORT, MYSQL_USER, MYSQL_PASS)
+console.log('mysql----',MYSQL_URL, MYSQL_PORT, MYSQL_USER, MYSQL_PASS)
 const connection = mysql.createConnection({
     host: MYSQL_URL,
     port: MYSQL_PORT,
