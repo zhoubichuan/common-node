@@ -10,7 +10,8 @@ let example = (req, res) => {
                 "Content-Type": "text/html",
             })
             console.log("a", data.toString())
-            res.write(data.toString())
+            res.write(JSON.stringify(data))
+            res.end()
         }
     })
 }
