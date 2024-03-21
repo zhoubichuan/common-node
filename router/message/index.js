@@ -1,4 +1,4 @@
-let sse = (req, res) => {
+let message = (req, res) => {
     res.writeHead(200, {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
@@ -11,5 +11,8 @@ let sse = (req, res) => {
         };
         res.write(`data: ${JSON.stringify(data)}\n\n`);
     }, 3000);
+    req.connection.addListener('close', () => {
+        console.log('SSE connection closed!');
+    }, false);
 }
-module.exports = sse
+module.exports = message
