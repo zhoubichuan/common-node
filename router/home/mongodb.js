@@ -1,5 +1,4 @@
 let mongoose = require("mongoose");
-mongoose.set("useFindAndModify", false);
 const Schema = mongoose.Schema;
 let { MONGO_URL, _AUTHSOURCE, _USER, _PASS, LOCAL } = process.env;
 let config = { useNewUrlParser: true, useUnifiedTopology: true };
