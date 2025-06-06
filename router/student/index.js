@@ -19,7 +19,7 @@ let query = (res, req, url, result) => {
 let common = {
     //查询全部
     queryAll: (res, req, url) => {
-        sql_query((r) => {
+        sql_query(false, (r) => {
             let result = { code: 200 }
             result.data = r
             query(res, req, url, result)
@@ -32,7 +32,8 @@ let common = {
             data += chunk
         })
         req.on("end", () => {
-            sql_query((r) => {
+            data = querystring.parse(data.toString())
+            sql_query(data.id, (r) => {
                 let result = { code: 200 }
                 result.data = r
                 query(res, req, url, result)
@@ -49,7 +50,7 @@ let common = {
         req.on("end", () => {
             data = querystring.parse(data.toString())
             console.log("请求数据：", data)
-            sql_add(data.s_name, data.s_english, data.s_math, (r) => {
+            sql_add(data.s_name, data.s_english, data.s_math, data.s_remark, (r) => {
                 sql_query((r) => {
                     let result = { code: 200 }
                     result.data = r
@@ -85,7 +86,7 @@ let common = {
         req.on("end", () => {
             data = querystring.parse(data.toString())
             console.log("请求数据：", data)
-            sql_update(data.id, data.s_name, data.s_english, data.s_math, (r) => {
+            sql_update(data.id, data.s_name, data.s_english, data.s_math, data.s_remark, (r) => {
                 sql_query((r) => {
                     let result = { code: 200 }
                     result.data = r
@@ -97,10 +98,10 @@ let common = {
 }
 let student = (req, res) => {
     let arr = ["queryAll", "querySingle", "addSingle", "deleteSingle", "update"]
-    for (let i = 0;i < arr.length;i++) {
+    for (let i = 0; i < arr.length; i++) {
         if (req.url.includes(arr[i])) {
             common[arr[i]](res, req, req.url)
         }
     }
 }
-module.exports= student
+module.exports = student

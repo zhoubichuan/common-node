@@ -1,6 +1,6 @@
 const mysql = require("mysql")
 let { MONGO_URL, MYSQL_URL, MYSQL_PORT, _AUTHSOURCE, MYSQL_USER, MYSQL_PASS, LOCAL } = process.env;
-console.log('mysql----',MYSQL_URL, MYSQL_PORT, MYSQL_USER, MYSQL_PASS)
+console.log('mysql----', MYSQL_URL, MYSQL_PORT, MYSQL_USER, MYSQL_PASS)
 const connection = mysql.createConnection({
     host: MYSQL_URL,
     port: MYSQL_PORT,
@@ -39,9 +39,9 @@ connection.connect((err) => {
     // connection.end();
 })
 
-function sql_add(s_name, s_english, s_math, callback) {
+function sql_add(s_name, s_english, s_math, s_remark, callback) {
     let userAddSql = "INSERT INTO student(s_name,s_english,s_math) VALUES(?,?,?)"
-    let userAddSql_params = [s_name, s_english, s_math]
+    let userAddSql_params = [s_name, s_english, s_math, s_remark]
     connection.query(userAddSql, userAddSql_params, function (err, result) {
         if (err) {
             console.log(err)
@@ -58,9 +58,9 @@ function sql_delete(id, callback) {
         console.log("删除", JSON.stringify(result))
     })
 }
-function sql_update(id, s_name, s_english, s_math, callback) {
+function sql_update(id, s_name, s_english, s_math, s_remark, callback) {
     console.log(typeof s_name)
-    let userChangeSql = `UPDATE student SET s_name="${s_name}",s_english=${s_english},s_math=${s_math} WHERE id=${id}`
+    let userChangeSql = `UPDATE student SET s_name="${s_name}",s_english=${s_english},s_math=${s_math},s_remark=${s_remark} WHERE id=${id}`
     connection.query(userChangeSql, function (err, result) {
         if (err) {
             console.log(err)
@@ -70,8 +70,8 @@ function sql_update(id, s_name, s_english, s_math, callback) {
         }
     })
 }
-function sql_query(callback) {
-    let userSearchSql = "SELECT * FROM student"
+function sql_query(id, callback) {
+    let userSearchSql = id ? `SELECT * FROM student WHERE id=${id}` : "SELECT * FROM student"
     connection.query(userSearchSql, function (err, result) {
         if (err) {
             console.log("查找失败", err)
