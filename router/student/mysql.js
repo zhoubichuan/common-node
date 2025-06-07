@@ -70,8 +70,13 @@ function sql_update(id, s_name, s_english, s_math, s_remark, callback) {
         }
     })
 }
-function sql_query(id, callback) {
-    let userSearchSql = id ? `SELECT * FROM student WHERE id=${id}` : "SELECT * FROM student"
+function sql_query(params, callback) {
+    let userSearchSql = "SELECT * FROM student"
+    if (params) {
+        for (let key in params) {
+            userSearchSql += ` WHERE ${key}=${params[key]}`
+        }
+    }
     connection.query(userSearchSql, function (err, result) {
         if (err) {
             console.log("查找失败", err)

@@ -21,7 +21,7 @@ let common = {
     queryAll: (res, req, url) => {
         sql_query(false, (r) => {
             let result = { code: 200 }
-            result.data = r
+            result.result = r
             query(res, req, url, result)
         })
     },
@@ -33,9 +33,9 @@ let common = {
         })
         req.on("end", () => {
             data = querystring.parse(data.toString())
-            sql_query(data.id, (r) => {
+            sql_query(data, (r) => {
                 let result = { code: 200 }
-                result.data = r
+                result.result = r
                 query(res, req, url, result)
             })
         })
@@ -46,14 +46,14 @@ let common = {
         req.on("data", (chunk) => {
             data += chunk
         })
-        // data = querystring.parse(result.data.toString());
+        // data = querystring.parse(result.result.toString());
         req.on("end", () => {
             data = querystring.parse(data.toString())
             console.log("请求数据：", data)
             sql_add(data.s_name, data.s_english, data.s_math, data.s_remark, (r) => {
-                sql_query(data.id, (r) => {
+                sql_query(data, (r) => {
                     let result = { code: 200 }
-                    result.data = r
+                    result.result = r
                     query(res, req, url, result)
                 })
             })
@@ -69,9 +69,9 @@ let common = {
             data = querystring.parse(data.toString())
             console.log("请求数据：", data)
             sql_delete(data.id, (r) => {
-                sql_query((r) => {
+                sql_query(data, (r) => {
                     let result = { code: 200 }
-                    result.data = r
+                    result.result = r
                     query(res, req, url, result)
                 })
             })
@@ -89,7 +89,7 @@ let common = {
             sql_update(data.id, data.s_name, data.s_english, data.s_math, data.s_remark, (r) => {
                 sql_query((r) => {
                     let result = { code: 200 }
-                    result.data = r
+                    result.result = r
                     query(res, req, url, result)
                 })
             })
