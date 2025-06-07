@@ -29,7 +29,8 @@ connection.connect((err) => {
         id INT PRIMARY KEY AUTO_INCREMENT,
         s_name VARCHAR(255) NOT NULL,
         s_english VARCHAR(255) NOT NULL,
-        s_math VARCHAR(255) NOT NULL
+        s_math VARCHAR(255) NOT NULL,
+        s_remark VARCHAR(255)
       )`;
     connection.query(createTableSQL, (err, results) => {
         // connection.release();
@@ -40,7 +41,7 @@ connection.connect((err) => {
 })
 
 function sql_add(s_name, s_english, s_math, s_remark, callback) {
-    let userAddSql = "INSERT INTO student(s_name,s_english,s_math) VALUES(?,?,?)"
+    let userAddSql = "INSERT INTO student(s_name,s_english,s_math,s_remark) VALUES(?,?,?,?)"
     let userAddSql_params = [s_name, s_english, s_math, s_remark]
     connection.query(userAddSql, userAddSql_params, function (err, result) {
         if (err) {

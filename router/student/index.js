@@ -1,6 +1,6 @@
 const { sql_add, sql_delete, sql_update, sql_query } = require("./mysql")
 const querystring = require("querystring")
-
+const nodeUrl = require('url')
 let query = (res, req, url, result) => {
     if (req.url.includes("favicon.ico")) {
         return false
@@ -20,9 +20,7 @@ let common = {
     //查询全部
     queryAll: (res, req, url) => {
         sql_query(false, (r) => {
-            let result = { code: 200 }
-            result.result = r
-            query(res, req, url, result)
+            query(res, req, url, { code: 200, result: r })
         })
     },
     //查询单个
@@ -31,12 +29,10 @@ let common = {
         req.on("data", (chunk) => {
             data += chunk
         })
+        const params = nodeUrl.parse(url, true).query
         req.on("end", () => {
-            data = querystring.parse(data.toString())
-            sql_query(data, (r) => {
-                let result = { code: 200 }
-                result.result = r
-                query(res, req, url, result)
+            sql_query(params, (r) => {
+                query(res, req, url, { code: 200, result: r[0] })
             })
         })
     },
@@ -51,10 +47,8 @@ let common = {
             data = querystring.parse(data.toString())
             console.log("请求数据：", data)
             sql_add(data.s_name, data.s_english, data.s_math, data.s_remark, (r) => {
-                sql_query(data, (r) => {
-                    let result = { code: 200 }
-                    result.result = r[0]
-                    query(res, req, url, result)
+                sql_query(false, (r) => {
+                    query(res, req, url, { code: 200, result: r })
                 })
             })
         })
@@ -70,9 +64,7 @@ let common = {
             console.log("请求数据：", data)
             sql_delete(data.id, (r) => {
                 sql_query(data, (r) => {
-                    let result = { code: 200 }
-                    result.result = r
-                    query(res, req, url, result)
+                    query(res, req, url, { code: 200, result: r })
                 })
             })
         })
@@ -87,10 +79,8 @@ let common = {
             data = querystring.parse(data.toString())
             console.log("请求数据：", data)
             sql_update(data.id, data.s_name, data.s_english, data.s_math, data.s_remark, (r) => {
-                sql_query((r) => {
-                    let result = { code: 200 }
-                    result.result = r
-                    query(res, req, url, result)
+                sql_query({ id: data.id }, (r) => {
+                    query(res, req, url, { code: 200, result: r })
                 })
             })
         })
