@@ -51,7 +51,7 @@ let common = {
             data = querystring.parse(data.toString())
             console.log("请求数据：", data)
             sql_add(data.s_name, data.s_english, data.s_math, data.s_remark, (r) => {
-                sql_query((r) => {
+                sql_query(data.id, (r) => {
                     let result = { code: 200 }
                     result.data = r
                     query(res, req, url, result)
