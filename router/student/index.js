@@ -53,7 +53,7 @@ let common = {
             sql_add(data.s_name, data.s_english, data.s_math, data.s_remark, (r) => {
                 sql_query(data, (r) => {
                     let result = { code: 200 }
-                    result.result = r
+                    result.result = r[0]
                     query(res, req, url, result)
                 })
             })
