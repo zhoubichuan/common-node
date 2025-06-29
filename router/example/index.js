@@ -20,7 +20,7 @@ let example = (req, res) => {
                 }
             })
         },
-        async transform(req, res) {
+        async csvtojson(req, res) {
             let data = ""
             req.on("data", (chunk) => {
                 data += chunk
