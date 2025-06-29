@@ -25,7 +25,7 @@ let example = (req, res) => {
             req.on("data", (chunk) => {
                 data += chunk
             })
-            const task = req.url.split('=').pop()
+            const task = decodeURIComponent(req.url.split('=').pop())
             res.writeHead(200, {
                 "Content-Type": "text/html",
             })
