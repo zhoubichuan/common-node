@@ -1,6 +1,7 @@
 const fs = require("fs")
 const { exec } = require('child_process');
 const nodeUrl = require('url')
+const { getJson } = require('./csvtojson')
 let example = (req, res) => {
     const key = req.url.split('?').shift().replace('/api/example/', '')
     const router = {
@@ -18,6 +19,19 @@ let example = (req, res) => {
                     res.end()
                 }
             })
+        },
+        async transform(req, res) {
+            let data = ""
+            req.on("data", (chunk) => {
+                data += chunk
+            })
+            const task = req.url.split('=').pop()
+            res.writeHead(200, {
+                "Content-Type": "text/html",
+            })
+            const { code } = await getJson(task, task.split('.')[0] + ".json")
+            res.write(JSON.stringify({ result: task.split('.')[0] + ".json", code }))
+            res.end()
         },
         lxquery(req, res) {
             let data = ""
