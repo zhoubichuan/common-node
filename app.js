@@ -6,6 +6,7 @@ const student = require('./router/student/index.js')
 const rich = require('./router/rich/index.js')
 const message = require('./router/message/index.js')
 const socket = require('./router/socket/index.js')
+const file = require('./router/file/index.js')
 const port = "3000"
 const server = http.createServer()
 server.listen(port, function () {
@@ -20,6 +21,7 @@ server.on("request", function (req, res) {
         req.url.includes('/student') && student(req, res)
         req.url.includes('/rich') && rich(req, res)
         req.url.includes('/message') && message(req, res)
+        req.url.includes('/file') && file(req, res)
     }
 })
 socket(server)
